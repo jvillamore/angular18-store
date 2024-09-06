@@ -1,15 +1,15 @@
-<p>
-	<input
-		type="number"
-		[value]="duration()"
-		(change)="onChangeDuration($event)"
-	/>
-</p>
-<p>
-	<input type="text" [value]="message()" (change)="onChangeMessage($event)" />
-</p>
-<p>
-	@if (duration() > 10) {
+<div class="px-10">
+	<H1 class="text-lg font-bold">About</H1>
+	<p class="text-xs">
+		Lorem ipsum dolor, sit amet consectetur adipisicing elit. In eum alias enim
+		esse commodi possimus doloribus perferendis facilis illo, velit quas harum
+		dignissimos repellendus, nostrum nemo dolore sunt, aspernatur corrupti!
+	</p>
+	<p class="text-xs">
+		Número de clientes:
 		<app-counter [duration]="duration()" [message]="message()" />
-	}
-</p>
+	</p>
+	<div>
+		<app-wave-audio audioUrl="assets/otroAtardecer.mp3" />
+	</div>
+</div>
