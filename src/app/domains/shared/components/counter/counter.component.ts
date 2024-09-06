@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChange } from '@angular/core';
+import { Component, Input, signal, SimpleChanges } from '@angular/core';
 
 @Component({
 	selector: 'app-counter',
@@ -11,14 +11,22 @@ export class CounterComponent {
 	@Input({ required: true }) duration = 0;
 	@Input({ required: true }) message = '';
 
+	// Counter
+	counter = signal(0);
+	intervalCounter: number | undefined;
+
 	constructor() {
 		console.log('constructor');
 		console.log('-'.repeat(20));
 	}
-	ngOnChanges(event: SimpleChange) {
+	ngOnChanges(event: SimpleChanges) {
 		console.log('ngOnChanges');
 		console.log(event);
 		console.log('-'.repeat(20));
+
+		const duration = event['duration'];
+		if (duration && duration.previousValue !== duration.currentValue)
+			this.doSomething();
 	}
 
 	ngOnInit() {
@@ -26,6 +34,11 @@ export class CounterComponent {
 		console.log('-'.repeat(20));
 		console.log('duration :', this.duration);
 		console.log('message :', this.message);
+
+		this.intervalCounter = window.setInterval(() => {
+			console.log('run interval ');
+			this.counter.update((statePrev) => statePrev + 1);
+		}, 1000);
 	}
 
 	ngAfterViewInit() {
@@ -39,5 +52,10 @@ export class CounterComponent {
 		// cuando un componente es destruido.
 		console.log('ngOnDestroy');
 		console.log('-'.repeat(20));
+		window.clearInterval(this.intervalCounter);
+	}
+
+	doSomething() {
+		console.log('doSomething');
 	}
 }
