@@ -1,16 +1,18 @@
 import { Component, signal } from '@angular/core';
 import { ProductComponent } from '../../components/product/product.component';
 import { IProduct } from '../../../shared/models/product.model';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
 
 @Component({
 	selector: 'app-list',
 	standalone: true,
-	imports: [ProductComponent],
+	imports: [ProductComponent, HeaderComponent],
 	templateUrl: './list.component.html',
 	styleUrl: './list.component.css',
 })
 export class ListComponent {
 	products = signal<IProduct[]>([]);
+	cart = signal<IProduct[]>([]);
 
 	constructor() {
 		const initProducts: IProduct[] = [
@@ -60,7 +62,7 @@ export class ListComponent {
 		this.products.set(initProducts);
 	}
 
-	addProductToCart(event: string) {
-		console.log(event);
+	addProductToCart(prod: IProduct) {
+		this.cart.update((prevState) => [...prevState, prod]);
 	}
 }
