@@ -26,6 +26,21 @@ export class ProductService {
 				)
 			);
 	}
+
+	getOne(id: string) {
+		return this.http
+			.get<IProduct>(`https://api.escuelajs.co/api/v1/products/${id}`)
+			.pipe(
+				map((product) => ({
+					...product,
+					images: product.images.map((image) =>
+						this.cleanAndParseImageUrl(image)
+					),
+					createAt: new Date().toString(),
+				}))
+			);
+	}
+
 	private cleanAndParseImageUrl(image: string): string {
 		let cleanedImage = image.replace(/^\["?|"?]$/g, '');
 		try {
