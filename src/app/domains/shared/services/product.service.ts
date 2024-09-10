@@ -11,20 +11,20 @@ export class ProductService {
 
 	constructor() {}
 
-	getProducts() {
-		return this.http
-			.get<IProduct[]>('https://api.escuelajs.co/api/v1/products')
-			.pipe(
-				map((products) =>
-					products.map((product) => ({
-						...product,
-						images: product.images.map((image) =>
-							this.cleanAndParseImageUrl(image)
-						),
-						createAt: new Date().toString(),
-					}))
-				)
-			);
+	getProducts(categoryId?: string) {
+		const url = new URL('https://api.escuelajs.co/api/v1/products');
+		if (categoryId) url.searchParams.set('categoryId', categoryId);
+		return this.http.get<IProduct[]>(url.toString()).pipe(
+			map((products) =>
+				products.map((product) => ({
+					...product,
+					images: product.images.map((image) =>
+						this.cleanAndParseImageUrl(image)
+					),
+					createAt: new Date().toString(),
+				}))
+			)
+		);
 	}
 
 	getOne(id: string) {
