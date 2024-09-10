@@ -11,7 +11,7 @@ import { Component, inject, Input, signal } from '@angular/core';
 	templateUrl: './product-detail.component.html',
 	styleUrl: './product-detail.component.css',
 })
-export class ProductDetailComponent {
+export default class ProductDetailComponent {
 	private productService = inject(ProductService);
 	private cartService = inject(CartService);
 	@Input() id?: string;
