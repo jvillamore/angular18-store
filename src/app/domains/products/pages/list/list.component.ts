@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { ProductComponent } from '../../components/product/product.component';
-import { IProduct } from '../../../shared/models/product.model';
-import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { CartService } from '../../../shared/services/cart.service';
+import { ProductComponent } from '@/products/components/product/product.component';
+import { IProduct } from '@/shared/models/product.model';
+import { HeaderComponent } from '@/shared/components/header/header.component';
+import { CartService } from '@/shared/services/cart.service';
+import { ProductService } from '@/shared/services/product.service';
 
 @Component({
 	selector: 'app-list',
@@ -14,53 +15,15 @@ import { CartService } from '../../../shared/services/cart.service';
 export class ListComponent {
 	products = signal<IProduct[]>([]);
 	private cartService = inject(CartService);
+	private productService = inject(ProductService);
 
-	constructor() {
-		const initProducts: IProduct[] = [
-			{
-				id: Date.now(),
-				title: 'product 001',
-				price: 1,
-				image: 'https://picsum.photos/300/300?r=1',
-				createAt: new Date().toUTCString(),
+	ngOnInit() {
+		this.productService.getProducts().subscribe({
+			next: (result) => {
+				this.products.set(result);
 			},
-			{
-				id: Date.now(),
-				title: 'product 002',
-				price: 2,
-				image: 'https://picsum.photos/300/300?r=2',
-				createAt: new Date().toUTCString(),
-			},
-			{
-				id: Date.now(),
-				title: 'product 003',
-				price: 3,
-				image: 'https://picsum.photos/300/300?r=3',
-				createAt: new Date().toUTCString(),
-			},
-			{
-				id: Date.now(),
-				title: 'product 001',
-				price: 1,
-				image: 'https://picsum.photos/300/300?r=1',
-				createAt: new Date().toUTCString(),
-			},
-			{
-				id: Date.now(),
-				title: 'product 002',
-				price: 2,
-				image: 'https://picsum.photos/300/300?r=2',
-				createAt: new Date().toUTCString(),
-			},
-			{
-				id: Date.now(),
-				title: 'product 003',
-				price: 3,
-				image: 'https://picsum.photos/300/300?r=3',
-				createAt: new Date().toUTCString(),
-			},
-		];
-		this.products.set(initProducts);
+			error: () => {},
+		});
 	}
 
 	addProductToCart(prod: IProduct) {

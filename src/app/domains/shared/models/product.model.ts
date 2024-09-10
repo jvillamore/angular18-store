@@ -2,6 +2,6 @@ export interface IProduct {
 	id: number;
 	title: string;
 	price: number;
-	image: string;
-	createAt: string;
+	images: string[];
+	createAt?: string;
 }
