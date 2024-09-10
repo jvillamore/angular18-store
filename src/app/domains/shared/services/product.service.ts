@@ -21,6 +21,7 @@ export class ProductService {
 						images: product.images.map((image) =>
 							this.cleanAndParseImageUrl(image)
 						),
+						createAt: new Date().toString(),
 					}))
 				)
 			);
