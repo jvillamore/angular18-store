@@ -1,8 +1,5 @@
-<div class="container mx-auto px-5">
-	<app-header />
-	<div class="grid grid-cols-4 gap-2 mt-5">
-		@for (item of products(); track $index) {
-			<app-product [product]="item" (addToCart)="addProductToCart(item)" />
-		}
-	</div>
+<div class="grid grid-cols-4 gap-2 mt-5">
+	@for (item of products(); track $index) {
+		<app-product [product]="item" (addToCart)="addProductToCart(item)" />
+	}
 </div>
